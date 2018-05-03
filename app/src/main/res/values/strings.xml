@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TestTaskApp</string>
+    <string name="audio_books">Audio books</string>
+    <string name="movies">Movies</string>
+    <string name="podcasts">Podcasts</string>
+    <string name="favorites">Favorites</string>
 </resources>

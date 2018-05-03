@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/item_audiobooks"
+        android:enabled="true"
+        android:icon="@mipmap/book"
+        android:title="@string/audio_books"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/item_movies"
+        android:enabled="true"
+        android:icon="@mipmap/movie"
+        android:title="@string/movies"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/item_podcasts"
+        android:enabled="true"
+        android:icon="@mipmap/cast"
+        android:title="@string/podcasts"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/item_favorites"
+        android:enabled="true"
+        android:icon="@mipmap/favorite"
+        android:title="@string/favorites"
+        app:showAsAction="ifRoom" />
+</menu>
