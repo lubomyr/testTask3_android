@@ -4,4 +4,5 @@
     <string name="movies">Movies</string>
     <string name="podcasts">Podcasts</string>
     <string name="favorites">Favorites</string>
+    <string name="selected_item">Selected item</string>
 </resources>
