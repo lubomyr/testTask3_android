@@ -11,20 +11,19 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.testtaskapp.databinding.ActivityMainBinding;
-import com.testtaskapp.fragments.AudioBooksFragment;
 import com.testtaskapp.fragments.FavoritesFragment;
-import com.testtaskapp.fragments.MoviesFragment;
-import com.testtaskapp.fragments.PodcastsFragment;
+import com.testtaskapp.fragments.FeedListFragment;
 import com.testtaskapp.fragments.SelectedItemFragment;
+
+import static com.testtaskapp.utils.KeyNames.KEY_AUDIOBOOKS;
+import static com.testtaskapp.utils.KeyNames.KEY_CATEGORY;
+import static com.testtaskapp.utils.KeyNames.KEY_FAVORITES;
+import static com.testtaskapp.utils.KeyNames.KEY_MOVIES;
+import static com.testtaskapp.utils.KeyNames.KEY_PODCASTS;
+import static com.testtaskapp.utils.KeyNames.KEY_SELECTED;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
-    private final String KEY_AUDIOBOOKS = "audiobooks";
-    private final String KEY_MOVIES = "movies";
-    private final String KEY_PODCASTS = "podcasts";
-    private final String KEY_FAVORITES = "favorites";
-    private final String KEY_SELECTED = "selected";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         bindingBottomMenu();
-        addAudioBooksFragment();
+        addFeedListFragment(KEY_AUDIOBOOKS);
     }
 
     private void bindingBottomMenu() {
@@ -42,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.item_audiobooks:
-                                addAudioBooksFragment();
+                                addFeedListFragment(KEY_AUDIOBOOKS);
                                 break;
                             case R.id.item_movies:
-                                addMoviesFragment();
+                                addFeedListFragment(KEY_MOVIES);
                                 break;
                             case R.id.item_podcasts:
-                                addPodcastsFragment();
+                                addFeedListFragment(KEY_PODCASTS);
                                 break;
                             case R.id.item_favorites:
                                 addFavoritesFragment();
@@ -80,22 +79,13 @@ public class MainActivity extends AppCompatActivity {
         manager.popBackStack();
     }
 
-    private void addAudioBooksFragment() {
-        Fragment audioBooksFragment = new AudioBooksFragment();
+    private void addFeedListFragment(String category) {
+        Fragment feedListFragment = new FeedListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_CATEGORY, category);
+        feedListFragment.setArguments(bundle);
         //audioBooksFragment.setListener(this);
-        addFragment(audioBooksFragment, true, KEY_AUDIOBOOKS);
-    }
-
-    private void addMoviesFragment() {
-        Fragment moviesFragment = new MoviesFragment();
-        //moviesFragment.setListener(this);
-        addFragment(moviesFragment, true, KEY_MOVIES);
-    }
-
-    private void addPodcastsFragment() {
-        Fragment podcastsFragment = new PodcastsFragment();
-        //podcastsFragment.setListener(this);
-        addFragment(podcastsFragment, true, KEY_PODCASTS);
+        addFragment(feedListFragment, true, KEY_AUDIOBOOKS);
     }
 
     private void addFavoritesFragment() {
