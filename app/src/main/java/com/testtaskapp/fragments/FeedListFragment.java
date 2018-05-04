@@ -31,6 +31,7 @@ import static com.testtaskapp.utils.KeyNames.KEY_AUDIOBOOKS;
 import static com.testtaskapp.utils.KeyNames.KEY_CATEGORY;
 import static com.testtaskapp.utils.KeyNames.KEY_MOVIES;
 import static com.testtaskapp.utils.KeyNames.KEY_PODCASTS;
+import static com.testtaskapp.utils.KeyNames.KEY_STATE;
 
 public class FeedListFragment extends Fragment implements Callback<JsonElement>, FeedsAdapter.OnItemClickListener {
     private FragmentFeedlistBinding binding;
@@ -40,6 +41,7 @@ public class FeedListFragment extends Fragment implements Callback<JsonElement>,
     private String TAG = "TestApp";
     private List<FeedItem> list;
     private FeedsAdapter feedsAdapter;
+    private int state;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,6 +74,20 @@ public class FeedListFragment extends Fragment implements Callback<JsonElement>,
 
         if (call != null)
             call.cancel();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_STATE, state);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            state = savedInstanceState.getInt(KEY_STATE);
+        }
     }
 
     private void initRetrofit() {
