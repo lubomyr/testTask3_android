@@ -12,6 +12,28 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitUtil {
 
     private static Retrofit mRetrofit;
+    private static Retrofit mRssRetrofit;
+
+    public static Retrofit getRssRetrofit() {
+        if(mRssRetrofit == null) {
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .readTimeout(60, TimeUnit.SECONDS)
+                    .connectTimeout(60, TimeUnit.SECONDS)
+                    .build();
+            String url = ApiConstant.DOMAIN_RSS;
+
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+
+            mRssRetrofit = new Retrofit.Builder()
+                    .baseUrl(url)
+                    .client(okHttpClient)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build();
+        }
+        return mRssRetrofit;
+    }
 
     public static Retrofit getSimpleRetrofit() {
         if(mRetrofit == null) {

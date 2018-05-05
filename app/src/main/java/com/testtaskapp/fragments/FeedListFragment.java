@@ -42,6 +42,7 @@ public class FeedListFragment extends Fragment implements Callback<JsonElement>,
     private List<FeedItem> list;
     private FeedsAdapter feedsAdapter;
     private int state;
+    private Listener listener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,7 +92,7 @@ public class FeedListFragment extends Fragment implements Callback<JsonElement>,
     }
 
     private void initRetrofit() {
-        Retrofit retrofit = RetrofitUtil.getSimpleRetrofit();
+        Retrofit retrofit = RetrofitUtil.getRssRetrofit();
         categoriesApi = retrofit.create(CategoriesApi.class);
     }
 
@@ -148,6 +149,16 @@ public class FeedListFragment extends Fragment implements Callback<JsonElement>,
 
     @Override
     public void onItemClick(FeedItem item) {
-        Log.d(TAG, "clicked id :"+item.getId());
+        Log.d(TAG, "clicked id :" + item.getId());
+        if (this.listener != null)
+            listener.onItemClick(item);
+    }
+
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
+
+    public interface Listener {
+        void onItemClick(FeedItem item);
     }
 }

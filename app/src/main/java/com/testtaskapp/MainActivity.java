@@ -8,9 +8,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.testtaskapp.databinding.ActivityMainBinding;
+import com.testtaskapp.entities.FeedItem;
 import com.testtaskapp.fragments.FavoritesFragment;
 import com.testtaskapp.fragments.FeedListFragment;
 import com.testtaskapp.fragments.SelectedItemFragment;
@@ -18,12 +20,14 @@ import com.testtaskapp.fragments.SelectedItemFragment;
 import static com.testtaskapp.utils.KeyNames.KEY_AUDIOBOOKS;
 import static com.testtaskapp.utils.KeyNames.KEY_CATEGORY;
 import static com.testtaskapp.utils.KeyNames.KEY_FAVORITES;
+import static com.testtaskapp.utils.KeyNames.KEY_ID;
 import static com.testtaskapp.utils.KeyNames.KEY_MOVIES;
 import static com.testtaskapp.utils.KeyNames.KEY_PODCASTS;
 import static com.testtaskapp.utils.KeyNames.KEY_SELECTED;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements FeedListFragment.Listener{
     private ActivityMainBinding binding;
+    private String TAG = "TestApp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,24 +84,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addFeedListFragment(String category) {
-        Fragment feedListFragment = new FeedListFragment();
+        FeedListFragment feedListFragment = new FeedListFragment();
+        feedListFragment.setListener(this);
         Bundle bundle = new Bundle();
         bundle.putString(KEY_CATEGORY, category);
         feedListFragment.setArguments(bundle);
-        //audioBooksFragment.setListener(this);
         addFragment(feedListFragment, true, KEY_AUDIOBOOKS);
     }
 
     private void addFavoritesFragment() {
-        Fragment favoritesFragment = new FavoritesFragment();
+        FavoritesFragment favoritesFragment = new FavoritesFragment();
         //favoritesFragment.setListener(this);
         addFragment(favoritesFragment, true, KEY_FAVORITES);
     }
 
-    private void addSelectedItemFragment() {
-        Fragment selectedItemFragment = new SelectedItemFragment();
-        //favoritesFragment.setListener(this);
+    private void addSelectedItemFragment(FeedItem item) {
+        SelectedItemFragment selectedItemFragment = new SelectedItemFragment();
+        Bundle bundle = new Bundle();
+        bundle.putLong(KEY_ID, item.getId());
+        selectedItemFragment.setArguments(bundle);
+        //selectedItemFragment.setListener(this);
         addFragment(selectedItemFragment, true, KEY_SELECTED);
     }
 
+    @Override
+    public void onItemClick(FeedItem item) {
+        Log.d(TAG, "clicked id :" + item.getId());
+        addSelectedItemFragment(item);
+    }
 }
