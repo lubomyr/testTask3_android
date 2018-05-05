@@ -111,15 +111,12 @@ public class MainActivity extends AppCompatActivity  implements FeedListFragment
 
     @Override
     public void onItemClick(FeedItem item) {
-        Log.d(TAG, "clicked id :" + item.getId());
         addSelectedItemFragment(item);
     }
 
     @Override
     public void changeFavoriteState(long itemId) {
-        Log.d(TAG, "clicked favorite id :" + itemId);
         FeedItem item = FeedsRepository.getById(itemId);
-        Log.d(TAG, "current state :" + item.getIsFavorite());
         item.setIsFavorite(!item.getIsFavorite());
         FeedsRepository.update(item);
     }
