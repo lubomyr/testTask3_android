@@ -29,6 +29,7 @@ public class FeedsRepository {
             if (!oldItemList.isEmpty()) {
                 old = oldItemList.get(0);
                 item.setDbId(old.getDbId());
+                item.setIsFavorite(old.getIsFavorite());
                 dao.update(item);
                 sId.incrementAndGet();
             } else {
@@ -47,12 +48,25 @@ public class FeedsRepository {
         }
     }
 
+    public static void update(FeedItem item) {
+        getDao().update(item);
+    }
+
     public static void deleteAll() {
         getDao().deleteAll();
     }
 
     public static List<FeedItem> getAll() {
         return getDao().loadAll();
+    }
+
+    public static FeedItem getById(long id) {
+        return getDao().queryBuilder().where(FeedItemDao.Properties.Id.eq(id)).unique();
+    }
+
+    public static boolean isFavoriteById(long id) {
+        FeedItem item = getDao().queryBuilder().where(FeedItemDao.Properties.Id.eq(id)).unique();
+        return item.getIsFavorite();
     }
 
     public static List<FeedItem> getByCategory(String category) {

@@ -42,9 +42,11 @@ public class FeedItem {
     @SerializedName("url")
     private String url;
 
-    @Generated(hash = 298406192)
+    private boolean isFavorite;
+
+    @Generated(hash = 1134840599)
     public FeedItem(long dbId, long id, String artistName, String name, String kind,
-            String artistId, String artworkUrl100, String url) {
+            String artistId, String artworkUrl100, String url, boolean isFavorite) {
         this.dbId = dbId;
         this.id = id;
         this.artistName = artistName;
@@ -53,6 +55,7 @@ public class FeedItem {
         this.artistId = artistId;
         this.artworkUrl100 = artworkUrl100;
         this.url = url;
+        this.isFavorite = isFavorite;
     }
 
     @Generated(hash = 605716718)
@@ -122,4 +125,13 @@ public class FeedItem {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public boolean getIsFavorite() {
+        return this.isFavorite;
+    }
+
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+
 }

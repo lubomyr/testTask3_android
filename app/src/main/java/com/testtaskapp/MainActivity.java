@@ -16,6 +16,7 @@ import com.testtaskapp.entities.FeedItem;
 import com.testtaskapp.fragments.FavoritesFragment;
 import com.testtaskapp.fragments.FeedListFragment;
 import com.testtaskapp.fragments.SelectedItemFragment;
+import com.testtaskapp.repository.FeedsRepository;
 
 import static com.testtaskapp.utils.KeyNames.KEY_AUDIOBOOKS;
 import static com.testtaskapp.utils.KeyNames.KEY_CATEGORY;
@@ -25,7 +26,8 @@ import static com.testtaskapp.utils.KeyNames.KEY_MOVIES;
 import static com.testtaskapp.utils.KeyNames.KEY_PODCASTS;
 import static com.testtaskapp.utils.KeyNames.KEY_SELECTED;
 
-public class MainActivity extends AppCompatActivity  implements FeedListFragment.Listener{
+public class MainActivity extends AppCompatActivity  implements FeedListFragment.Listener,
+        SelectedItemFragment.Listener {
     private ActivityMainBinding binding;
     private String TAG = "TestApp";
 
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity  implements FeedListFragment
         Bundle bundle = new Bundle();
         bundle.putLong(KEY_ID, item.getId());
         selectedItemFragment.setArguments(bundle);
-        //selectedItemFragment.setListener(this);
+        selectedItemFragment.setListener(this);
         addFragment(selectedItemFragment, true, KEY_SELECTED);
     }
 
@@ -111,5 +113,14 @@ public class MainActivity extends AppCompatActivity  implements FeedListFragment
     public void onItemClick(FeedItem item) {
         Log.d(TAG, "clicked id :" + item.getId());
         addSelectedItemFragment(item);
+    }
+
+    @Override
+    public void changeFavoriteState(long itemId) {
+        Log.d(TAG, "clicked favorite id :" + itemId);
+        FeedItem item = FeedsRepository.getById(itemId);
+        Log.d(TAG, "current state :" + item.getIsFavorite());
+        item.setIsFavorite(!item.getIsFavorite());
+        FeedsRepository.update(item);
     }
 }

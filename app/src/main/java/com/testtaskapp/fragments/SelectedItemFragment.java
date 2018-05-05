@@ -12,15 +12,14 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
+import com.testtaskapp.R;
 import com.testtaskapp.api.CategoriesApi;
 import com.testtaskapp.api.RetrofitUtil;
 import com.testtaskapp.databinding.FragmentSelectedBinding;
-import com.testtaskapp.entities.FeedItem;
 import com.testtaskapp.entities.SelectedItem;
+import com.testtaskapp.repository.FeedsRepository;
 import com.testtaskapp.repository.SelectedRepository;
 import com.testtaskapp.utils.GsonUtils;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +35,7 @@ public class SelectedItemFragment extends Fragment implements Callback<JsonEleme
     private String TAG = "TestApp";
     private SelectedItem selectedItem;
     private long itemId;
+    private Listener listener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,9 +49,19 @@ public class SelectedItemFragment extends Fragment implements Callback<JsonEleme
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentSelectedBinding.inflate(inflater, container, false);
+
+        bindFavoriteButtons();
         getItemId();
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (call != null)
+            call.cancel();
     }
 
     private void initRetrofit() {
@@ -67,6 +77,16 @@ public class SelectedItemFragment extends Fragment implements Callback<JsonEleme
         }
     }
 
+    private void bindFavoriteButtons() {
+        binding.favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.changeFavoriteState(itemId);
+                refreshFavoriteView();
+            }
+        });
+    }
+
     private void setViews() {
         if (selectedItem != null) {
             binding.setItem(selectedItem);
@@ -75,7 +95,14 @@ public class SelectedItemFragment extends Fragment implements Callback<JsonEleme
                 Glide.with(context).load(selectedItem.getArtworkUrl100()).into(binding.image);
             if (selectedItem.getDescription() != null)
                 binding.description.setHtml(selectedItem.getDescription());
+            refreshFavoriteView();
         }
+    }
+
+    private void refreshFavoriteView() {
+        boolean status = FeedsRepository.isFavoriteById(itemId);
+        int resource = status ? R.mipmap.favorite_active : R.mipmap.favorite_inactive;
+        binding.favorite.setImageResource(resource);
     }
 
     private void getDataFromWeb(long itemID) {
@@ -98,8 +125,8 @@ public class SelectedItemFragment extends Fragment implements Callback<JsonEleme
             Log.d(TAG, jsonItem.toString());
             selectedItem = GsonUtils.getGson().fromJson(jsonItem, new TypeToken<SelectedItem>() {
             }.getType());
-            setViews();
             SelectedRepository.save(selectedItem);
+            setViews();
         } else
             getDataFromDb();
     }
@@ -108,6 +135,14 @@ public class SelectedItemFragment extends Fragment implements Callback<JsonEleme
     public void onFailure(Call<JsonElement> call, Throwable t) {
         Log.d(TAG, "item onFailure");
         getDataFromDb();
+    }
+
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
+
+    public interface Listener {
+        void changeFavoriteState(long itemId);
     }
 
 }
