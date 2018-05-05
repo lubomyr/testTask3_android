@@ -1,5 +1,6 @@
 package com.testtaskapp.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import com.testtaskapp.api.RetrofitUtil;
 import com.testtaskapp.databinding.FragmentSelectedBinding;
 import com.testtaskapp.entities.FeedItem;
 import com.testtaskapp.entities.SelectedItem;
+import com.testtaskapp.repository.SelectedRepository;
 import com.testtaskapp.utils.GsonUtils;
 
 import java.util.List;
@@ -33,6 +35,7 @@ public class SelectedItemFragment extends Fragment implements Callback<JsonEleme
     private Call<JsonElement> call;
     private String TAG = "TestApp";
     private SelectedItem selectedItem;
+    private long itemId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,20 +62,30 @@ public class SelectedItemFragment extends Fragment implements Callback<JsonEleme
     private void getItemId() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            long itemId = bundle.getLong(KEY_ID);
+           itemId = bundle.getLong(KEY_ID);
             getDataFromWeb(itemId);
         }
     }
 
     private void setViews() {
-        binding.setItem(selectedItem);
-        Glide.with(getContext()).load(selectedItem.getArtworkUrl100()).into(binding.image);
-        binding.description.setHtml(selectedItem.getDescription());
+        if (selectedItem != null) {
+            binding.setItem(selectedItem);
+            Context context = getContext();
+            if (context != null && selectedItem.getArtworkUrl100() != null)
+                Glide.with(context).load(selectedItem.getArtworkUrl100()).into(binding.image);
+            if (selectedItem.getDescription() != null)
+                binding.description.setHtml(selectedItem.getDescription());
+        }
     }
 
     private void getDataFromWeb(long itemID) {
         call = categoriesApi.getItem(itemID);
         call.enqueue(this);
+    }
+
+    private void getDataFromDb() {
+        selectedItem = SelectedRepository.getById(itemId);
+        setViews();
     }
 
     @Override
@@ -86,12 +99,15 @@ public class SelectedItemFragment extends Fragment implements Callback<JsonEleme
             selectedItem = GsonUtils.getGson().fromJson(jsonItem, new TypeToken<SelectedItem>() {
             }.getType());
             setViews();
-        }
+            SelectedRepository.save(selectedItem);
+        } else
+            getDataFromDb();
     }
 
     @Override
     public void onFailure(Call<JsonElement> call, Throwable t) {
         Log.d(TAG, "item onFailure");
+        getDataFromDb();
     }
 
 }

@@ -18,6 +18,7 @@ import com.testtaskapp.api.CategoriesApi;
 import com.testtaskapp.api.RetrofitUtil;
 import com.testtaskapp.databinding.FragmentFeedlistBinding;
 import com.testtaskapp.entities.FeedItem;
+import com.testtaskapp.repository.FeedsRepository;
 import com.testtaskapp.utils.GsonUtils;
 
 import java.util.List;
@@ -120,6 +121,12 @@ public class FeedListFragment extends Fragment implements Callback<JsonElement>,
         call.enqueue(this);
     }
 
+    private void getDataFromDb() {
+        list = FeedsRepository.getByCategory(category);
+        feedsAdapter.setData(list);
+        feedsAdapter.notifyDataSetChanged();
+    }
+
     private void bindFeedsAdapter() {
         binding.recycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         feedsAdapter = new FeedsAdapter(getContext(), R.layout.item_feed);
@@ -139,12 +146,15 @@ public class FeedListFragment extends Fragment implements Callback<JsonElement>,
             }.getType());
             feedsAdapter.setData(list);
             feedsAdapter.notifyDataSetChanged();
-        }
+            FeedsRepository.saveAll(list);
+        } else
+            getDataFromDb();
     }
 
     @Override
     public void onFailure(Call<JsonElement> call, Throwable t) {
         Log.d(TAG, "feed list onFailure");
+        getDataFromDb();
     }
 
     @Override
