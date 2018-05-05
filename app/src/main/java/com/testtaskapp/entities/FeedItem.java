@@ -7,9 +7,13 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.util.Date;
+
 @Entity
 public class FeedItem {
-    @Id
+    @Id(autoincrement = true)
+    private long dbId;
+
     @Expose
     @SerializedName("id")
     private long id;
@@ -38,9 +42,10 @@ public class FeedItem {
     @SerializedName("url")
     private String url;
 
-    @Generated(hash = 51825878)
-    public FeedItem(long id, String artistName, String name, String kind,
+    @Generated(hash = 298406192)
+    public FeedItem(long dbId, long id, String artistName, String name, String kind,
             String artistId, String artworkUrl100, String url) {
+        this.dbId = dbId;
         this.id = id;
         this.artistName = artistName;
         this.name = name;
@@ -52,6 +57,14 @@ public class FeedItem {
 
     @Generated(hash = 605716718)
     public FeedItem() {
+    }
+
+    public long getDbId() {
+        return this.dbId;
+    }
+
+    public void setDbId(long dbId) {
+        this.dbId = dbId;
     }
 
     public long getId() {
