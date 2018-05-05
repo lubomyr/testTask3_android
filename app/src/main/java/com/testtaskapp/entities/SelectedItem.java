@@ -59,12 +59,25 @@ public class SelectedItem {
     @SerializedName("collectionPrice")
     private String collectionPrice;
 
-    @Generated(hash = 58512525)
+    @Expose
+    @SerializedName("country")
+    private String country;
+
+    @Expose
+    @SerializedName("currency")
+    private String currency;
+
+    @Expose
+    @SerializedName("description")
+    private String description;
+
+    @Generated(hash = 954937003)
     public SelectedItem(String wrapperType, String artistId, String collectionId,
             String amgArtistId, String artistName, String collectionName,
             String collectionCensoredName, String artistViewUrl,
             String collectionViewUrl, String artworkUrl60, String artworkUrl100,
-            String collectionPrice) {
+            String collectionPrice, String country, String currency,
+            String description) {
         this.wrapperType = wrapperType;
         this.artistId = artistId;
         this.collectionId = collectionId;
@@ -77,6 +90,9 @@ public class SelectedItem {
         this.artworkUrl60 = artworkUrl60;
         this.artworkUrl100 = artworkUrl100;
         this.collectionPrice = collectionPrice;
+        this.country = country;
+        this.currency = currency;
+        this.description = description;
     }
 
     @Generated(hash = 1584449183)
@@ -177,6 +193,30 @@ public class SelectedItem {
 
     public void setCollectionPrice(String collectionPrice) {
         this.collectionPrice = collectionPrice;
+    }
+
+    public String getCountry() {
+        return this.country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCurrency() {
+        return this.currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }
