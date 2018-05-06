@@ -6,9 +6,13 @@ import com.google.gson.annotations.SerializedName;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Keep;
 
 @Entity
 public class SelectedItem {
+
+    @Id(autoincrement = true)
+    private long Id;
 
     @Expose
     @SerializedName("wrapperType")
@@ -18,10 +22,13 @@ public class SelectedItem {
     @SerializedName("artistId")
     private String artistId;
 
-    @Id
     @Expose
     @SerializedName("collectionId")
     private String collectionId;
+
+    @Expose
+    @SerializedName("trackId")
+    private String trackId;
 
     @Expose
     @SerializedName("amgArtistId")
@@ -71,16 +78,18 @@ public class SelectedItem {
     @SerializedName("description")
     private String description;
 
-    @Generated(hash = 954937003)
-    public SelectedItem(String wrapperType, String artistId, String collectionId,
-            String amgArtistId, String artistName, String collectionName,
-            String collectionCensoredName, String artistViewUrl,
-            String collectionViewUrl, String artworkUrl60, String artworkUrl100,
-            String collectionPrice, String country, String currency,
-            String description) {
+    @Generated(hash = 498320693)
+    public SelectedItem(long Id, String wrapperType, String artistId,
+            String collectionId, String trackId, String amgArtistId,
+            String artistName, String collectionName, String collectionCensoredName,
+            String artistViewUrl, String collectionViewUrl, String artworkUrl60,
+            String artworkUrl100, String collectionPrice, String country,
+            String currency, String description) {
+        this.Id = Id;
         this.wrapperType = wrapperType;
         this.artistId = artistId;
         this.collectionId = collectionId;
+        this.trackId = trackId;
         this.amgArtistId = amgArtistId;
         this.artistName = artistName;
         this.collectionName = collectionName;
@@ -97,6 +106,14 @@ public class SelectedItem {
 
     @Generated(hash = 1584449183)
     public SelectedItem() {
+    }
+
+    public long getId() {
+        return this.Id;
+    }
+
+    public void setId(long Id) {
+        this.Id = Id;
     }
 
     public String getWrapperType() {
@@ -121,6 +138,14 @@ public class SelectedItem {
 
     public void setCollectionId(String collectionId) {
         this.collectionId = collectionId;
+    }
+
+    public String getTrackId() {
+        return this.trackId;
+    }
+
+    public void setTrackId(String trackId) {
+        this.trackId = trackId;
     }
 
     public String getAmgArtistId() {
@@ -218,5 +243,4 @@ public class SelectedItem {
     public void setDescription(String description) {
         this.description = description;
     }
-
 }
