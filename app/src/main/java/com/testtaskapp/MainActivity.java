@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity  implements FeedListFragment
     @Override
     public void bottomMenuStateFix(int itemNum) {
         if (binding != null && binding.bottomNavigation != null
+                && binding.bottomNavigation.getMenu() != null
                 && binding.bottomNavigation.getMenu().getItem(itemNum) != null)
             binding.bottomNavigation.getMenu().getItem(itemNum).setChecked(true);
     }
