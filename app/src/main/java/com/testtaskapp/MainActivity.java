@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity  implements FeedListFragment
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
 
         transaction.replace(R.id.fragmentsFrame, fragment, tag);
 
@@ -116,7 +117,8 @@ public class MainActivity extends AppCompatActivity  implements FeedListFragment
 
     @Override
     public void bottomMenuStateFix(int itemNum) {
-        binding.bottomNavigation.getMenu().getItem(itemNum).setChecked(true);
+        if (binding.bottomNavigation != null)
+            binding.bottomNavigation.getMenu().getItem(itemNum).setChecked(true);
     }
 
     @Override
