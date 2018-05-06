@@ -17,8 +17,8 @@ public class RetrofitUtil {
     public static Retrofit getRssRetrofit() {
         if(mRssRetrofit == null) {
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .readTimeout(60, TimeUnit.SECONDS)
-                    .connectTimeout(60, TimeUnit.SECONDS)
+                    .readTimeout(5, TimeUnit.SECONDS)
+                    .connectTimeout(5, TimeUnit.SECONDS)
                     .build();
             String url = ApiConstant.DOMAIN_RSS;
 
@@ -38,8 +38,8 @@ public class RetrofitUtil {
     public static Retrofit getSimpleRetrofit() {
         if(mRetrofit == null) {
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .readTimeout(60, TimeUnit.SECONDS)
-                    .connectTimeout(60, TimeUnit.SECONDS)
+                    .readTimeout(5, TimeUnit.SECONDS)
+                    .connectTimeout(5, TimeUnit.SECONDS)
                     .build();
             String url = ApiConstant.DOMAIN;
 
