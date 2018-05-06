@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.testtaskapp.R;
@@ -45,6 +46,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         
         holder.binding.setItem(item);
         List<FeedItem> favorites = FeedsRepository.getFavoritesByCategory(item.getName());
+        holder.binding.title.setVisibility(favorites.isEmpty() ? View.GONE : View.VISIBLE);
         bindFeedsAdapter(holder.binding, favorites);
         holder.binding.executePendingBindings();
     }
