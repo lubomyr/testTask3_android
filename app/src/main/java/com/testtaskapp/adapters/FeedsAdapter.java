@@ -18,7 +18,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
     private List<FeedItem> itemList;
     private FeedsAdapter.OnItemClickListener onItemClickListener;
     private Context mContext;
-    private FeedItem selectedItem;
 
     public FeedsAdapter(Context context, int resources) {
         this.mResources = resources;
@@ -91,7 +90,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         @Override
         public void onClick(View view) {
             if (onItemClickListener != null) {
-                selectedItem = item;
                 onItemClickListener.onItemClick(item);
                 notifyDataSetChanged();
             }

@@ -85,4 +85,20 @@ public class FeedsRepository {
         return getDao().queryBuilder().where(FeedItemDao.Properties.Kind.eq(condition)).list();
     }
 
+    public static List<FeedItem> getFavoritesByCategory(String category) {
+        String condition = "";
+        switch(category) {
+            case KEY_AUDIOBOOKS:
+                condition = "book";
+                break;
+            case KEY_MOVIES:
+                condition = "movie";
+                break;
+            case KEY_PODCASTS:
+                condition = "podcast";
+                break;
+        }
+        return getDao().queryBuilder().where(FeedItemDao.Properties.Kind.eq(condition),
+                FeedItemDao.Properties.IsFavorite.eq(true)).list();
+    }
 }

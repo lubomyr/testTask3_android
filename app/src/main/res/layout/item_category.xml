@@ -4,13 +4,7 @@
     <data>
         <variable
             name="item"
-            type="com.testtaskapp.entities.FeedItem" />
-
-        <variable
-            name="isFavorite"
-            type="boolean" />
-
-        <import type="android.view.View" />
+            type="com.testtaskapp.entities.Category" />
     </data>
 
     <LinearLayout
@@ -22,16 +16,15 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{item.name}"
-            android:visibility="gone"/>
+            android:text="@{item.name}"/>
 
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
-
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" />
 
     </LinearLayout>
 

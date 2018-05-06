@@ -27,7 +27,7 @@ import static com.testtaskapp.utils.KeyNames.KEY_PODCASTS;
 import static com.testtaskapp.utils.KeyNames.KEY_SELECTED;
 
 public class MainActivity extends AppCompatActivity  implements FeedListFragment.Listener,
-        SelectedItemFragment.Listener {
+        SelectedItemFragment.Listener, FavoritesFragment.Listener {
     private ActivityMainBinding binding;
     private String TAG = "TestApp";
 
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity  implements FeedListFragment
 
     private void addFavoritesFragment() {
         FavoritesFragment favoritesFragment = new FavoritesFragment();
-        //favoritesFragment.setListener(this);
+        favoritesFragment.setListener(this);
         addFragment(favoritesFragment, true, KEY_FAVORITES);
     }
 
