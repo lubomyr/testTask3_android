@@ -16,7 +16,8 @@ public class BaseApplication extends Application {
 
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "app-db");
         Database db = helper.getWritableDb();
-        daoSession = new DaoMaster(db).newSession();
+        if (daoSession == null)
+            daoSession = new DaoMaster(db).newSession();
     }
 
     public static DaoSession getDaoSession() {
