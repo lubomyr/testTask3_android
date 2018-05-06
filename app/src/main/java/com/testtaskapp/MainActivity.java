@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity  implements FeedListFragment
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         bindingBottomMenu();
-        addFeedListFragment(KEY_AUDIOBOOKS);
+        addFeedListFragment(KEY_AUDIOBOOKS, false);
     }
 
     private void bindingBottomMenu() {
@@ -47,13 +47,13 @@ public class MainActivity extends AppCompatActivity  implements FeedListFragment
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.item_audiobooks:
-                                addFeedListFragment(KEY_AUDIOBOOKS);
+                                addFeedListFragment(KEY_AUDIOBOOKS, true);
                                 break;
                             case R.id.item_movies:
-                                addFeedListFragment(KEY_MOVIES);
+                                addFeedListFragment(KEY_MOVIES, true);
                                 break;
                             case R.id.item_podcasts:
-                                addFeedListFragment(KEY_PODCASTS);
+                                addFeedListFragment(KEY_PODCASTS, true);
                                 break;
                             case R.id.item_favorites:
                                 addFavoritesFragment();
@@ -85,13 +85,13 @@ public class MainActivity extends AppCompatActivity  implements FeedListFragment
         manager.popBackStack();
     }
 
-    private void addFeedListFragment(String category) {
+    private void addFeedListFragment(String category, boolean isAddToStack) {
         FeedListFragment feedListFragment = new FeedListFragment();
         feedListFragment.setListener(this);
         Bundle bundle = new Bundle();
         bundle.putString(KEY_CATEGORY, category);
         feedListFragment.setArguments(bundle);
-        addFragment(feedListFragment, true, KEY_AUDIOBOOKS);
+        addFragment(feedListFragment, isAddToStack, KEY_AUDIOBOOKS);
     }
 
     private void addFavoritesFragment() {
