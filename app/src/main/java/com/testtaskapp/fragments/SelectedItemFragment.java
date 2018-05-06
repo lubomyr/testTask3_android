@@ -106,6 +106,7 @@ public class SelectedItemFragment extends Fragment implements Callback<JsonEleme
     }
 
     private void getDataFromWeb(long itemID) {
+        binding.progressBar.setVisibility(View.VISIBLE);
         call = categoriesApi.getItem(itemID);
         call.enqueue(this);
     }
@@ -118,6 +119,7 @@ public class SelectedItemFragment extends Fragment implements Callback<JsonEleme
     @Override
     public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
         Log.d(TAG, "item onResponse");
+        binding.progressBar.setVisibility(View.GONE);
         if (response.body() != null) {
             JsonElement json = response.body();
             JsonElement resultsJson = json.getAsJsonObject().get("results");
@@ -134,6 +136,7 @@ public class SelectedItemFragment extends Fragment implements Callback<JsonEleme
     @Override
     public void onFailure(Call<JsonElement> call, Throwable t) {
         Log.d(TAG, "item onFailure");
+        binding.progressBar.setVisibility(View.GONE);
         getDataFromDb();
     }
 

@@ -124,6 +124,7 @@ public class FeedListFragment extends Fragment implements Callback<JsonElement>,
                 call = categoriesApi.getPodcasts();
                 break;
         }
+        binding.progressBar.setVisibility(View.VISIBLE);
         call.enqueue(this);
     }
 
@@ -160,6 +161,7 @@ public class FeedListFragment extends Fragment implements Callback<JsonElement>,
     @Override
     public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
         Log.d(TAG, "feed list onResponse");
+        binding.progressBar.setVisibility(View.GONE);
         if (response.body() != null) {
             JsonElement json = response.body();
             JsonElement feedJson = json.getAsJsonObject().get("feed");
@@ -176,6 +178,7 @@ public class FeedListFragment extends Fragment implements Callback<JsonElement>,
     @Override
     public void onFailure(Call<JsonElement> call, Throwable t) {
         Log.d(TAG, "feed list onFailure");
+        binding.progressBar.setVisibility(View.GONE);
         getDataFromDb();
     }
 
