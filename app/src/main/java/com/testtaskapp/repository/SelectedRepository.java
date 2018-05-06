@@ -4,11 +4,7 @@ import com.testtaskapp.BaseApplication;
 import com.testtaskapp.entities.SelectedItem;
 import com.testtaskapp.entities.SelectedItemDao;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 public class SelectedRepository {
-    private static AtomicLong sId = new AtomicLong();
-
     private static SelectedItemDao getDao() {
         return BaseApplication.getDaoSession().getSelectedItemDao();
     }
@@ -16,10 +12,8 @@ public class SelectedRepository {
     public static void save(SelectedItem item) {
         SelectedItemDao dao = getDao();
         try {
-            dao.insert(item);
-        } catch (Throwable throwable) {
-            item.setId(sId.incrementAndGet());
-            save(item);
+            dao.insertOrReplace(item);
+        } catch (Throwable ignored) {
         }
     }
 

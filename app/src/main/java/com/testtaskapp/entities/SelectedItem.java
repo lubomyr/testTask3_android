@@ -11,8 +11,8 @@ import org.greenrobot.greendao.annotation.Keep;
 @Entity
 public class SelectedItem {
 
-    @Id(autoincrement = true)
-    private long Id;
+    @Id
+    private String Id;
 
     @Expose
     @SerializedName("wrapperType")
@@ -78,14 +78,14 @@ public class SelectedItem {
     @SerializedName("description")
     private String description;
 
-    @Generated(hash = 498320693)
-    public SelectedItem(long Id, String wrapperType, String artistId,
+    @Keep
+    public SelectedItem(String Id, String wrapperType, String artistId,
             String collectionId, String trackId, String amgArtistId,
             String artistName, String collectionName, String collectionCensoredName,
             String artistViewUrl, String collectionViewUrl, String artworkUrl60,
             String artworkUrl100, String collectionPrice, String country,
             String currency, String description) {
-        this.Id = Id;
+        this.Id = (collectionId != null) ?  collectionId : trackId;
         this.wrapperType = wrapperType;
         this.artistId = artistId;
         this.collectionId = collectionId;
@@ -108,11 +108,11 @@ public class SelectedItem {
     public SelectedItem() {
     }
 
-    public long getId() {
-        return this.Id;
+    public String getId() {
+        return (getCollectionId()!=null) ? getCollectionId() : getTrackId();
     }
 
-    public void setId(long Id) {
+    public void setId(String Id) {
         this.Id = Id;
     }
 
@@ -243,4 +243,5 @@ public class SelectedItem {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }
