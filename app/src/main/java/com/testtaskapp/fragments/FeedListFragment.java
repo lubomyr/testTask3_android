@@ -66,7 +66,6 @@ public class FeedListFragment extends Fragment implements Callback<JsonElement>,
             feedsAdapter.setData(list);
             feedsAdapter.notifyDataSetChanged();
         }
-
         return binding.getRoot();
     }
 
@@ -76,6 +75,13 @@ public class FeedListFragment extends Fragment implements Callback<JsonElement>,
 
         if (call != null)
             call.cancel();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        listener.bottomMenuStateFix(getBottomMenuItemNum());
     }
 
     @Override
@@ -134,6 +140,22 @@ public class FeedListFragment extends Fragment implements Callback<JsonElement>,
         binding.recycler.setAdapter(feedsAdapter);
     }
 
+    private int getBottomMenuItemNum() {
+        int num = 0;
+        switch(category) {
+            case KEY_AUDIOBOOKS:
+                num = 0;
+                break;
+            case KEY_MOVIES:
+                num = 1;
+                break;
+            case KEY_PODCASTS:
+                num = 2;
+                break;
+        }
+        return num;
+    }
+
 
     @Override
     public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
@@ -170,5 +192,6 @@ public class FeedListFragment extends Fragment implements Callback<JsonElement>,
 
     public interface Listener {
         void onItemClick(FeedItem item);
+        void bottomMenuStateFix(int itemNum);
     }
 }

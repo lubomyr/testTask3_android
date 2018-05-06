@@ -115,6 +115,11 @@ public class MainActivity extends AppCompatActivity  implements FeedListFragment
     }
 
     @Override
+    public void bottomMenuStateFix(int itemNum) {
+        binding.bottomNavigation.getMenu().getItem(itemNum).setChecked(true);
+    }
+
+    @Override
     public void changeFavoriteState(long itemId) {
         FeedItem item = FeedsRepository.getById(itemId);
         item.setIsFavorite(!item.getIsFavorite());

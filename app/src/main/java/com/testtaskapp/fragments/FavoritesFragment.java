@@ -3,7 +3,6 @@ package com.testtaskapp.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.testtaskapp.R;
 import com.testtaskapp.adapters.CategoryAdapter;
-import com.testtaskapp.adapters.FeedsAdapter;
 import com.testtaskapp.databinding.FragmentFavoritesBinding;
 import com.testtaskapp.entities.Category;
 import com.testtaskapp.entities.FeedItem;
@@ -39,6 +37,13 @@ public class FavoritesFragment extends Fragment implements CategoryAdapter.Liste
         bindFeedsAdapter();
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        listener.bottomMenuStateFix(3);
     }
 
     List<Category> getCategoryList() {
@@ -69,5 +74,6 @@ public class FavoritesFragment extends Fragment implements CategoryAdapter.Liste
 
     public interface Listener {
         void onItemClick(FeedItem item);
+        void bottomMenuStateFix(int itemNum);
     }
 }
